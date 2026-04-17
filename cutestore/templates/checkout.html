@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #fff0f5;
+        }
+
+        .box {
+            width: 60%;
+            margin: auto;
+            margin-top: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        button:hover {
+            background-color: #ff1493;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>🧾 Checkout</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        
+        <!-- <label>Total Amount</label>
+        <input type="text" name="total" required> -->
+
+        <h2>Total Amount: ₹{{ total }}</h2>
+
+
+        <label>Full Name</label>
+        <input type="text" name="name" required>
+
+        <label>Address</label>
+        <input type="text" name="address" required>
+
+        <label>Phone</label>
+        <input type="text" name="phone" required>
+
+        <label>Payment Method</label>
+        <select name="payment_method" required>
+            <option value="">Select</option>
+            <option value="cod">Cash on Delivery</option>
+            <option value="online">Online Payment</option>
+        </select>
+      
+        <button type="submit">Proceed</button>
+    </form>
+</div>
+
+</body>
+</html>
