@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 import stripe
 from django.conf import settings
-stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_key=settings.STRIPE_SECRET_KEY
 
 
 from .models import Product
@@ -81,7 +81,7 @@ def add_to_cart(request, product_id):
 
 
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
+
 
 # def checkout(request):
 
@@ -196,12 +196,14 @@ def logout_view(request):
 from django.shortcuts import render, redirect
 from .models import CartItem, Order, OrderItem
 
+@login_required(login_url='/')
 def checkout(request):
     cart_items = CartItem.objects.filter(user=request.user)
 
     total = sum(item.product.price * item.quantity for item in cart_items)
 
     if request.method == 'POST':
+        
         name = request.POST.get('name')
         address = request.POST.get('address')
         phone = request.POST.get('phone')
@@ -217,7 +219,7 @@ def checkout(request):
             status='Pending'
         )
 
-        # COD flow
+        # COD
         if payment_method == 'cod':
             order.status = 'Placed'
             order.save()
@@ -233,18 +235,26 @@ def checkout(request):
             cart_items.delete()
             return redirect('order_success')
 
-        # ONLINE PAYMENT (Stripe)
+        # STRIPE
         else:
             line_items = []
 
             for item in cart_items:
+                # SAVE ORDER ITEMS
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    quantity=item.quantity,
+                    price=item.product.price
+                )
+
                 line_items.append({
                     'price_data': {
                         'currency': 'inr',
                         'product_data': {
                             'name': item.product.name,
                         },
-                        'unit_amount': item.product.price * 100,
+                        'unit_amount': int(item.product.price * 100),
                     },
                     'quantity': item.quantity,
                 })
