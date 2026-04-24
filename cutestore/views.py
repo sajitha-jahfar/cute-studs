@@ -82,45 +82,6 @@ def add_to_cart(request, product_id):
 
 
 
-
-# def checkout(request):
-
-#     cart = Cart.objects.get(user=request.user)
-#     items = CartItem.objects.filter(cart=cart)
-
-#     total = sum(item.product.price * item.quantity for item in items)
-
-    
-#     order = Order.objects.create(
-#         user=request.user,
-#         total_amount=total,
-#         status='PENDING'
-#     )
-
-#     line_items = []
-
-#     for item in items:
-#         line_items.append({
-#             'price_data': {
-#                 'currency': 'inr',
-#                 'product_data': {
-#                     'name': item.product.name,
-#                 },
-#                 'unit_amount': item.product.price * 100,
-#             },
-#             'quantity': item.quantity,
-#         })
-
-#     session = stripe.checkout.Session.create(
-#         payment_method_types=['card'],
-#         line_items=line_items,
-#         mode='payment',
-#         success_url=f'http://127.0.0.1:8000/success/?order_id={order.id}',
-#         cancel_url='http://127.0.0.1:8000/cancel/',
-#     )
-
-#     return redirect(session.url)
-
 def success(request):
     return render(request, 'success.html')
 
