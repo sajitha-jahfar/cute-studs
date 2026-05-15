@@ -224,8 +224,8 @@ def checkout(request):
                 payment_method_types=['card'],
                 line_items=line_items,
                 mode='payment',
-                success_url=f'http://127.0.0.1:8000/success/?order_id={order.id}',
-                cancel_url='http://127.0.0.1:8000/cancel/',
+                success_url=f'https://cute-studs.onrender.com/success/?order_id={order.id}',
+                cancel_url='https://cute-studs.onrender.com/cancel/',
             )
 
             return redirect(session.url)
